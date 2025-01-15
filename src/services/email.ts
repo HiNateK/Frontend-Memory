@@ -1,10 +1,10 @@
 const BACKEND_URL = 'https://backend-memory-f33i.onrender.com';
-const SENDER_EMAIL = import.meta.env.VITE_SENDER_EMAIL || 'support@kinscreen.com';
+const SENDER_EMAIL = 'support@kinscreen.com';
 
 const sendEmail = async (options: {
   to: string;
   subject: string;
-  html: string;
+  text: string;
 }) => {
   console.log('Email Service: Starting email send process');
   console.log('Email Service: Sending to:', options.to);
@@ -18,7 +18,7 @@ const sendEmail = async (options: {
       from: SENDER_EMAIL,
       to: options.to,
       subject: options.subject,
-      html: options.html
+      text: options.text
     };
     
     console.log('Email Service: Request payload:', JSON.stringify(requestBody, null, 2));
@@ -64,26 +64,19 @@ export const sendWelcomeEmail = async (email: string, name: string, planName: st
   return sendEmail({
     to: email,
     subject: 'Welcome to KinScreen!',
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <h1 style="color: #6D28D9; margin-bottom: 20px;">Welcome to KinScreen!</h1>
-        <p>Dear ${name},</p>
-        <p>Thank you for subscribing to our ${planName} plan.</p>
-        
-        <div style="margin: 30px 0; padding: 20px; background-color: #f8f9fa; border-radius: 5px;">
-          <h2 style="color: #4C1D95; margin-bottom: 15px;">Getting Started:</h2>
-          <ul style="padding-left: 20px; line-height: 1.6;">
-            <li>Download KinScreen for your device</li>
-            <li>Sign in with your email: ${email}</li>
-            <li>Start sharing your memories!</li>
-          </ul>
-        </div>
+    text: `Dear ${name},
 
-        <div style="margin-top: 30px; text-align: center; color: #666;">
-          <p>Need help? Contact our support team at support@kinscreen.com</p>
-        </div>
-      </div>
-    `
+Thank you for subscribing to our ${planName} plan.
+
+Getting Started:
+- Download KinScreen for your device
+- Sign in with your email: ${email}
+- Start sharing your memories!
+
+Need help? Contact our support team at support@kinscreen.com
+
+Best regards,
+The KinScreen Team`
   });
 };
 
@@ -92,39 +85,20 @@ export const sendGiftEmail = async (recipientEmail: string, senderName: string, 
   return sendEmail({
     to: recipientEmail,
     subject: 'You\'ve Received a KinScreen Gift! 🎁',
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <div style="background: #1a1a1a; color: #ffffff; padding: 40px; border-radius: 12px;">
-          <h1 style="text-align: center; color: #ffffff; margin-bottom: 30px;">
-            You've Received a Gift! 🎁
-          </h1>
+    text: `Dear ${recipientEmail},
 
-          <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
-            Dear ${recipientEmail},
-          </p>
+Great news! ${senderName} has gifted you a ${planName} subscription to KinScreen - a beautiful way to keep your family memories always in view!
 
-          <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
-            ${senderName} has gifted you a ${planName} subscription to KinScreen!
-          </p>
+Get Started Now:
+1. Download KinScreen for your device
+2. Install the application
+3. Sign in with this email address
+4. Your gift subscription will be automatically activated
 
-          <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-            <h2 style="color: #ffffff; margin-bottom: 15px;">Get Started Now:</h2>
-            <ol style="padding-left: 20px;">
-              <li style="margin-bottom: 10px;">Download KinScreen for your device</li>
-              <li style="margin-bottom: 10px">Install the application</li>
-              <li style="margin-bottom: 10px">Sign in with this email address</li>
-              <li style="margin-bottom: 10px">Your gift subscription will be automatically activated</li>
-            </ol>
-          </div>
+Need help? Contact our support team at support@kinscreen.com
 
-          <div style="text-align: center; margin-top: 40px;">
-            <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">
-              Need help? Contact our support team at support@kinscreen.com
-            </p>
-          </div>
-        </div>
-      </div>
-    `
+Enjoy your gift!
+The KinScreen Team`
   });
 };
 
@@ -133,28 +107,21 @@ export const sendCancellationEmail = async (email: string, name: string) => {
   return sendEmail({
     to: email,
     subject: 'KinScreen Subscription Cancellation Confirmation',
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <h1 style="color: #6D28D9; margin-bottom: 20px;">Subscription Cancellation Confirmation</h1>
-        <p>Dear ${name},</p>
-        <p>We've received your request to cancel your KinScreen subscription.</p>
-        
-        <div style="margin: 30px 0; padding: 20px; background-color: #f8f9fa; border-radius: 5px;">
-          <h2 style="color: #4C1D95; margin-bottom: 15px;">What happens next:</h2>
-          <ul style="padding-left: 20px; line-height: 1.6;">
-            <li>Your subscription will remain active until the end of your current billing period</li>
-            <li>You'll still have access to all your photos and memories</li>
-            <li>No further payments will be charged</li>
-            <li>You can reactivate your subscription at any time</li>
-          </ul>
-        </div>
+    text: `Dear ${name},
 
-        <p>We're sorry to see you go. If you change your mind, you can reactivate your subscription at any time.</p>
+We've received your request to cancel your KinScreen subscription.
 
-        <div style="margin-top: 30px; text-align: center; color: #666;">
-          <p>Need help? Contact our support team at support@kinscreen.com</p>
-        </div>
-      </div>
-    `
+What happens next:
+- Your subscription will remain active until the end of your current billing period
+- You'll still have access to all your photos and memories
+- No further payments will be charged
+- You can reactivate your subscription at any time
+
+We're sorry to see you go. If you change your mind, you can reactivate your subscription at any time.
+
+Need help? Contact our support team at support@kinscreen.com
+
+Best regards,
+The KinScreen Team`
   });
 };
