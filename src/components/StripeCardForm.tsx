@@ -68,8 +68,7 @@ function StripeCheckoutForm({
               email: customerEmail,
               name: customerName
             }
-          },
-          setup_future_usage: isTrialSetup ? 'off_session' : undefined
+          }
         },
         redirect: 'if_required'
       });

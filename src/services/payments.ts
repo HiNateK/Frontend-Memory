@@ -22,10 +22,11 @@ export const initializePayment = async (amount: number, currency: string = 'usd'
           amount: Math.round(amount * 100), // Convert to cents
           currency,
           setup_future_usage: isTrialSetup ? 'off_session' : undefined,
-          trial_period_days: isTrialSetup ? 7 : undefined,
-          automatic_payment_methods: {
-            enabled: true,
-            allow_redirects: 'never'
+          capture_method: isTrialSetup ? 'manual' : 'automatic',
+          confirm: false,
+          metadata: {
+            is_trial: isTrialSetup ? 'true' : 'false',
+            trial_period_days: isTrialSetup ? '7' : undefined
           }
         }),
       });
@@ -40,18 +41,14 @@ export const initializePayment = async (amount: number, currency: string = 'usd'
 
       const data = await response.json();
       console.log('Payment Service: Received response', { 
-        hasClientSecret: !!data.clientSecret,
-        setupIntent: !!data.setupIntent
+        hasClientSecret: !!data.clientSecret
       });
       
       if (!data.clientSecret) {
         throw new Error('Invalid response from payment server: missing client secret');
       }
 
-      return { 
-        clientSecret: data.clientSecret,
-        setupIntent: data.setupIntent
-      };
+      return { clientSecret: data.clientSecret };
     } catch (error) {
       console.error('Payment Service: Attempt failed', {
         attempt: attempt + 1,
