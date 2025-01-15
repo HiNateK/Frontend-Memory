@@ -15,8 +15,8 @@ const sendEmail = async (options: {
     console.log('Email Service: Making request to backend:', `${BACKEND_URL}/send-email`);
     
     const requestBody = {
-      to: options.to,
       from: SENDER_EMAIL,
+      to: options.to,
       subject: options.subject,
       html: options.html
     };
