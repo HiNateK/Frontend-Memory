@@ -37,6 +37,11 @@ function StripeCheckoutForm({ onSuccess, customerEmail, customerName, planName }
       return;
     }
 
+    if (!customerEmail || !customerName) {
+      setError('Please fill in your name and email before proceeding with payment.');
+      return;
+    }
+
     setIsProcessing(true);
     setError('');
 
@@ -57,18 +62,22 @@ function StripeCheckoutForm({ onSuccess, customerEmail, customerName, planName }
             }
           }
         },
+        redirect: 'if_required'
       });
 
       if (confirmError) {
         throw new Error(confirmError.message || 'Payment confirmation failed');
-      } else {
-        // Send welcome email after successful payment
-        const emailSuccess = await sendWelcomeEmail(customerEmail, customerName, planName);
-        if (!emailSuccess) {
-          console.error('Failed to send welcome email');
-        }
-        onSuccess();
       }
+
+      // Send welcome email after successful payment
+      try {
+        await sendWelcomeEmail(customerEmail, customerName, planName);
+      } catch (emailError) {
+        console.error('Failed to send welcome email:', emailError);
+        // Don't throw here - payment was successful
+      }
+
+      onSuccess();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
     } finally {
@@ -83,11 +92,6 @@ function StripeCheckoutForm({ onSuccess, customerEmail, customerName, planName }
           layout: {
             type: 'tabs',
             defaultCollapsed: false,
-          },
-          fields: {
-            billingDetails: {
-              address: 'never'
-            }
           }
         }}
       />
@@ -98,7 +102,7 @@ function StripeCheckoutForm({ onSuccess, customerEmail, customerName, planName }
       )}
       <button
         type="submit"
-        disabled={!stripe || isProcessing}
+        disabled={!stripe || isProcessing || !customerEmail || !customerName}
         className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105 flex items-center justify-center gap-2 border border-white/10 disabled:opacity-50 disabled:hover:scale-100"
       >
         {isProcessing ? 'Processing...' : 'Pay Now'}

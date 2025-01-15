@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { 
@@ -27,7 +27,6 @@ export default function Checkout() {
   useEffect(() => {
     if (!location.state?.plan) {
       navigate('/pricing');
-      return;
     }
   }, [location.state, navigate]);
 
@@ -46,30 +45,30 @@ export default function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Only initialize payment when customer info is filled
-  const initPayment = useCallback(async () => {
-    if (!customerEmail || !customerName) return;
-    
-    try {
-      const amount = parseFloat(plan.price.replace('$', ''));
-      const { clientSecret: secret } = await initializePayment(amount);
-      setClientSecret(secret);
-    } catch (err) {
-      console.error('Payment initialization error:', err);
-      setError('Failed to initialize payment. Please try again.');
-    }
-  }, [plan.price, customerEmail, customerName]);
-
+  // Initialize payment immediately when component mounts
   useEffect(() => {
-    if (!promoApplied && paymentMethod === 'card' && customerEmail && customerName) {
-      initPayment();
-    }
-  }, [promoApplied, paymentMethod, customerEmail, customerName, initPayment]);
+    const initPayment = async () => {
+      if (promoApplied || paymentMethod !== 'card') return;
+      
+      try {
+        setError(null);
+        const amount = parseFloat(plan.price.replace('$', ''));
+        const { clientSecret: secret } = await initializePayment(amount);
+        setClientSecret(secret);
+      } catch (err) {
+        console.error('Payment initialization error:', err);
+        setError('Failed to initialize payment. Please try again.');
+      }
+    };
+
+    initPayment();
+  }, [plan.price, promoApplied, paymentMethod]);
 
   const handlePromoCode = () => {
     if (promoCode.toLowerCase() === 'free') {
       setPromoApplied(true);
       setError(null);
+      setClientSecret(null);
     } else {
       setError('Invalid promo code');
     }
@@ -80,7 +79,7 @@ export default function Checkout() {
     setError(null);
 
     try {
-      if (isGift) {
+      if (isGift && giftEmail) {
         await sendGiftEmail(giftEmail, gifterName || customerName, plan.name);
         navigate('/thank-you-gift', { 
           state: { 
@@ -94,34 +93,7 @@ export default function Checkout() {
         navigate('/thank-you', { state: { plan: plan.name } });
       }
     } catch (err) {
-      console.error('Payment success handler error:', err);
-      setError('Failed to process payment');
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const handleFreeCheckout = async () => {
-    setIsProcessing(true);
-    setError(null);
-
-    try {
-      if (isGift) {
-        await sendGiftEmail(giftEmail, gifterName || customerName, plan.name);
-        navigate('/thank-you-gift', { 
-          state: { 
-            giftEmail,
-            plan: plan.name,
-            senderName: gifterName || customerName,
-            giftMessage
-          }
-        });
-      } else {
-        navigate('/thank-you', { state: { plan: plan.name } });
-      }
-    } catch (err) {
-      console.error('Free checkout error:', err);
-      setError('Failed to process order');
+      setError('Failed to process payment. Please try again.');
     } finally {
       setIsProcessing(false);
     }
@@ -357,7 +329,7 @@ export default function Checkout() {
         {/* Free Checkout Button */}
         {promoApplied && (
           <button
-            onClick={handleFreeCheckout}
+            onClick={handlePaymentSuccess}
             disabled={isProcessing || (isGift && !giftEmail) || !customerEmail || !customerName}
             className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105 flex items-center justify-center gap-2 border border-white/10 disabled:opacity-50 disabled:hover:scale-100"
           >
