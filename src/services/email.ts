@@ -6,41 +6,61 @@ const sendEmail = async (options: {
   subject: string;
   html: string;
 }) => {
-  console.log('Sending email to:', options.to);
+  console.log('Email Service: Starting email send process');
+  console.log('Email Service: Sending to:', options.to);
+  console.log('Email Service: From:', SENDER_EMAIL);
+  console.log('Email Service: Subject:', options.subject);
   
   try {
+    console.log('Email Service: Making request to backend:', `${BACKEND_URL}/send-email`);
+    
+    const requestBody = {
+      to: options.to,
+      from: SENDER_EMAIL,
+      subject: options.subject,
+      html: options.html
+    };
+    
+    console.log('Email Service: Request payload:', JSON.stringify(requestBody, null, 2));
+
     const response = await fetch(`${BACKEND_URL}/send-email`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        to: options.to,
-        from: SENDER_EMAIL,
-        subject: options.subject,
-        html: options.html
-      }),
+      body: JSON.stringify(requestBody),
     });
+
+    console.log('Email Service: Response status:', response.status);
+    console.log('Email Service: Response status text:', response.statusText);
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);
-      console.error('Email service error:', {
+      console.error('Email Service: Error response:', {
         status: response.status,
         statusText: response.statusText,
-        errorData
+        errorData,
+        url: response.url,
+        headers: Object.fromEntries(response.headers.entries())
       });
-      return false;
+      
+      throw new Error(`Failed to send email: ${response.statusText}`);
     }
 
-    console.log('Email sent successfully to:', options.to);
+    console.log('Email Service: Email sent successfully');
     return true;
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('Email Service: Caught error:', {
+      error,
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    });
     return false;
   }
 };
 
 export const sendWelcomeEmail = async (email: string, name: string, planName: string) => {
+  console.log('Welcome Email: Starting send process', { email, name, planName });
   return sendEmail({
     to: email,
     subject: 'Welcome to KinScreen!',
@@ -68,6 +88,7 @@ export const sendWelcomeEmail = async (email: string, name: string, planName: st
 };
 
 export const sendGiftEmail = async (recipientEmail: string, senderName: string, planName: string) => {
+  console.log('Gift Email: Starting send process', { recipientEmail, senderName, planName });
   return sendEmail({
     to: recipientEmail,
     subject: 'You\'ve Received a KinScreen Gift! 🎁',
@@ -108,6 +129,7 @@ export const sendGiftEmail = async (recipientEmail: string, senderName: string, 
 };
 
 export const sendCancellationEmail = async (email: string, name: string) => {
+  console.log('Cancellation Email: Starting send process', { email, name });
   return sendEmail({
     to: email,
     subject: 'KinScreen Subscription Cancellation Confirmation',
