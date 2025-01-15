@@ -27,7 +27,6 @@ export default function Checkout() {
   useEffect(() => {
     if (!location.state?.plan) {
       navigate('/pricing');
-      return;
     }
   }, [location.state, navigate]);
 
@@ -46,11 +45,11 @@ export default function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Only initialize payment when customer info is filled
-  const initPayment = useCallback(async () => {
-    if (!customerEmail || !customerName) return;
-    
+  const initializeStripePayment = useCallback(async () => {
+    if (!customerEmail || !customerName || promoApplied || paymentMethod !== 'card') return;
+
     try {
+      setError(null);
       const amount = parseFloat(plan.price.replace('$', ''));
       const { clientSecret: secret } = await initializePayment(amount);
       setClientSecret(secret);
@@ -58,18 +57,17 @@ export default function Checkout() {
       console.error('Payment initialization error:', err);
       setError('Failed to initialize payment. Please try again.');
     }
-  }, [plan.price, customerEmail, customerName]);
+  }, [customerEmail, customerName, promoApplied, paymentMethod, plan.price]);
 
   useEffect(() => {
-    if (!promoApplied && paymentMethod === 'card' && customerEmail && customerName) {
-      initPayment();
-    }
-  }, [promoApplied, paymentMethod, customerEmail, customerName, initPayment]);
+    initializeStripePayment();
+  }, [initializeStripePayment]);
 
   const handlePromoCode = () => {
     if (promoCode.toLowerCase() === 'free') {
       setPromoApplied(true);
       setError(null);
+      setClientSecret(null);
     } else {
       setError('Invalid promo code');
     }
@@ -80,7 +78,7 @@ export default function Checkout() {
     setError(null);
 
     try {
-      if (isGift) {
+      if (isGift && giftEmail) {
         await sendGiftEmail(giftEmail, gifterName || customerName, plan.name);
         navigate('/thank-you-gift', { 
           state: { 
@@ -94,19 +92,23 @@ export default function Checkout() {
         navigate('/thank-you', { state: { plan: plan.name } });
       }
     } catch (err) {
-      console.error('Payment success handler error:', err);
-      setError('Failed to process payment');
+      setError('Failed to process payment. Please try again.');
     } finally {
       setIsProcessing(false);
     }
   };
 
   const handleFreeCheckout = async () => {
+    if (!customerEmail || !customerName || (isGift && !giftEmail)) {
+      setError('Please fill in all required fields');
+      return;
+    }
+
     setIsProcessing(true);
     setError(null);
 
     try {
-      if (isGift) {
+      if (isGift && giftEmail) {
         await sendGiftEmail(giftEmail, gifterName || customerName, plan.name);
         navigate('/thank-you-gift', { 
           state: { 
@@ -120,8 +122,7 @@ export default function Checkout() {
         navigate('/thank-you', { state: { plan: plan.name } });
       }
     } catch (err) {
-      console.error('Free checkout error:', err);
-      setError('Failed to process order');
+      setError('Failed to process order. Please try again.');
     } finally {
       setIsProcessing(false);
     }
@@ -159,6 +160,7 @@ export default function Checkout() {
                 className="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 focus:border-white/40"
                 placeholder="Enter your full name"
                 required
+                disabled={isProcessing}
               />
             </div>
 
@@ -174,6 +176,7 @@ export default function Checkout() {
                 className="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 focus:border-white/40"
                 placeholder="Enter your email"
                 required
+                disabled={isProcessing}
               />
             </div>
           </div>
@@ -190,6 +193,7 @@ export default function Checkout() {
           <button
             onClick={() => setIsGift(!isGift)}
             className="w-full text-left"
+            disabled={isProcessing}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -211,6 +215,7 @@ export default function Checkout() {
                   className="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 focus:border-white/40"
                   placeholder="Enter recipient's email"
                   required
+                  disabled={isProcessing}
                 />
               </div>
               
@@ -222,6 +227,7 @@ export default function Checkout() {
                   onChange={(e) => setGifterName(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 focus:border-white/40"
                   placeholder="Name to show on the gift message (optional)"
+                  disabled={isProcessing}
                 />
                 <p className="text-sm text-purple-200 mt-1">
                   Leave blank to use your name from above
@@ -239,6 +245,7 @@ export default function Checkout() {
                   className="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 focus:border-white/40 resize-none"
                   placeholder="Add a personal message to your gift"
                   rows={3}
+                  disabled={isProcessing}
                 />
               </div>
             </div>
@@ -264,13 +271,13 @@ export default function Checkout() {
               type="text"
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
-              disabled={promoApplied}
+              disabled={promoApplied || isProcessing}
               className="flex-1 px-4 py-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 focus:border-white/40 disabled:opacity-50"
               placeholder="Enter promo code"
             />
             <button
               onClick={handlePromoCode}
-              disabled={promoApplied || !promoCode}
+              disabled={promoApplied || !promoCode || isProcessing}
               className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 disabled:opacity-50 transition-all"
             >
               Apply
@@ -296,7 +303,7 @@ export default function Checkout() {
                       ? 'bg-white/15 border-purple-500/50'
                       : 'bg-white/5 border-white/10 hover:bg-white/10'
                   }`}
-                  onClick={() => setPaymentMethod('card')}
+                  onClick={() => !isProcessing && setPaymentMethod('card')}
                 >
                   <div className="flex items-center gap-4">
                     <CreditCard className="w-6 h-6" />
@@ -310,7 +317,7 @@ export default function Checkout() {
                       ? 'bg-white/15 border-purple-500/50'
                       : 'bg-white/5 border-white/10 hover:bg-white/10'
                   }`}
-                  onClick={() => setPaymentMethod('paypal')}
+                  onClick={() => !isProcessing && setPaymentMethod('paypal')}
                 >
                   <div className="flex items-center gap-4">
                     <Wallet className="w-6 h-6" />
@@ -347,6 +354,7 @@ export default function Checkout() {
                       });
                     }}
                     onApprove={handlePaymentSuccess}
+                    disabled={isProcessing}
                   />
                 </PayPalScriptProvider>
               )}
