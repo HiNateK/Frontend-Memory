@@ -17,7 +17,7 @@ const plans = [
       "7-day full access",
       "Converts to $5/month"
     ],
-    highlight: "No credit card required"
+    highlight: "Great for test"
   },
   {
     name: "Monthly",

@@ -16,13 +16,21 @@ interface StripeCardFormProps {
   customerEmail: string;
   customerName: string;
   planName: string;
+  isTrialSetup?: boolean;
 }
 
-function StripeCheckoutForm({ onSuccess, customerEmail, customerName, planName }: { 
+function StripeCheckoutForm({ 
+  onSuccess, 
+  customerEmail, 
+  customerName, 
+  planName,
+  isTrialSetup 
+}: { 
   onSuccess: () => void;
   customerEmail: string;
   customerName: string;
   planName: string;
+  isTrialSetup?: boolean;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -60,7 +68,8 @@ function StripeCheckoutForm({ onSuccess, customerEmail, customerName, planName }
               email: customerEmail,
               name: customerName
             }
-          }
+          },
+          setup_future_usage: isTrialSetup ? 'off_session' : undefined
         },
         redirect: 'if_required'
       });
@@ -69,12 +78,10 @@ function StripeCheckoutForm({ onSuccess, customerEmail, customerName, planName }
         throw new Error(confirmError.message || 'Payment confirmation failed');
       }
 
-      // Send welcome email after successful payment
       try {
         await sendWelcomeEmail(customerEmail, customerName, planName);
       } catch (emailError) {
         console.error('Failed to send welcome email:', emailError);
-        // Don't throw here - payment was successful
       }
 
       onSuccess();
@@ -95,23 +102,48 @@ function StripeCheckoutForm({ onSuccess, customerEmail, customerName, planName }
           }
         }}
       />
+      
       {error && (
         <div className="p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-200">
           {error}
         </div>
       )}
+
+      <div className="text-sm text-purple-200 bg-purple-500/10 p-4 rounded-xl border border-purple-500/20">
+        {isTrialSetup ? (
+          <>
+            <p className="font-medium mb-2">Free Trial Terms:</p>
+            <ul className="list-disc list-inside space-y-1">
+              <li>$1 temporary authorization (refunded immediately)</li>
+              <li>7 days free trial with full access</li>
+              <li>$5/month after trial ends</li>
+              <li>Cancel anytime during trial</li>
+            </ul>
+          </>
+        ) : (
+          <p>You will be charged {planName === 'Lifetime' ? 'once' : 'monthly'}.</p>
+        )}
+      </div>
+
       <button
         type="submit"
         disabled={!stripe || isProcessing || !customerEmail || !customerName}
         className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105 flex items-center justify-center gap-2 border border-white/10 disabled:opacity-50 disabled:hover:scale-100"
       >
-        {isProcessing ? 'Processing...' : 'Pay Now'}
+        {isProcessing ? 'Processing...' : isTrialSetup ? 'Start Free Trial' : 'Pay Now'}
       </button>
     </form>
   );
 }
 
-export default function StripeCardForm({ clientSecret, onSuccess, customerEmail, customerName, planName }: StripeCardFormProps) {
+export default function StripeCardForm({ 
+  clientSecret, 
+  onSuccess, 
+  customerEmail, 
+  customerName, 
+  planName,
+  isTrialSetup 
+}: StripeCardFormProps) {
   if (!clientSecret) {
     return (
       <div className="p-4 bg-yellow-500/20 border border-yellow-500/50 rounded-xl text-yellow-200 text-center">
@@ -145,6 +177,7 @@ export default function StripeCardForm({ clientSecret, onSuccess, customerEmail,
         customerEmail={customerEmail}
         customerName={customerName}
         planName={planName}
+        isTrialSetup={isTrialSetup}
       />
     </Elements>
   );

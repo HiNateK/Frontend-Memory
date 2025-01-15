@@ -13,7 +13,8 @@ import {
   User,
   Mail,
   MessageSquare,
-  ArrowRight
+  ArrowRight,
+  Info
 } from 'lucide-react';
 import { sendGiftEmail } from '../services/email';
 import { initializePayment } from '../services/payments';
@@ -23,7 +24,6 @@ export default function Checkout() {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // Redirect to pricing if no plan is selected
   useEffect(() => {
     if (!location.state?.plan) {
       navigate('/pricing');
@@ -31,6 +31,7 @@ export default function Checkout() {
   }, [location.state, navigate]);
 
   const { plan } = location.state || { plan: { name: 'Basic', price: '$5', description: 'Monthly plan' } };
+  const isFreeTrial = plan.name === 'Free Trial';
   
   const [isGift, setIsGift] = useState(false);
   const [giftEmail, setGiftEmail] = useState('');
@@ -45,15 +46,14 @@ export default function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Initialize payment immediately when component mounts
   useEffect(() => {
     const initPayment = async () => {
       if (promoApplied || paymentMethod !== 'card') return;
       
       try {
         setError(null);
-        const amount = parseFloat(plan.price.replace('$', ''));
-        const { clientSecret: secret } = await initializePayment(amount);
+        const amount = isFreeTrial ? 1 : parseFloat(plan.price.replace('$', ''));
+        const { clientSecret: secret } = await initializePayment(amount, 'usd', isFreeTrial);
         setClientSecret(secret);
       } catch (err) {
         console.error('Payment initialization error:', err);
@@ -62,24 +62,54 @@ export default function Checkout() {
     };
 
     initPayment();
-  }, [plan.price, promoApplied, paymentMethod]);
-
-  const handlePromoCode = () => {
-    if (promoCode.toLowerCase() === 'free') {
-      setPromoApplied(true);
-      setError(null);
-      setClientSecret(null);
-    } else {
-      setError('Invalid promo code');
-    }
-  };
+  }, [plan.price, promoApplied, paymentMethod, isFreeTrial]);
 
   const handlePaymentSuccess = async () => {
     setIsProcessing(true);
     setError(null);
 
     try {
-      if (isGift && giftEmail) {
+      if (isGift) {
+        await sendGiftEmail(giftEmail, gifterName || customerName, plan.name);
+        navigate('/thank-you-gift', { 
+          state: { 
+            giftEmail,
+            plan: plan.name,
+            senderName: gifterName || customerName,
+            giftMessage
+          }
+        });
+      } else {
+        navigate('/thank-you', { 
+          state: { 
+            plan: plan.name,
+            isFreeTrial
+          }
+        });
+      }
+    } catch (err) {
+      console.error('Error processing success:', err);
+      setError('Payment successful but failed to process follow-up actions. Our team will contact you shortly.');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handlePromoCode = () => {
+    if (promoCode.toLowerCase() === 'free') {
+      setPromoApplied(true);
+      setError(null);
+    } else {
+      setError('Invalid promo code');
+    }
+  };
+
+  const handleFreeCheckout = async () => {
+    setIsProcessing(true);
+    setError(null);
+
+    try {
+      if (isGift) {
         await sendGiftEmail(giftEmail, gifterName || customerName, plan.name);
         navigate('/thank-you-gift', { 
           state: { 
@@ -93,7 +123,7 @@ export default function Checkout() {
         navigate('/thank-you', { state: { plan: plan.name } });
       }
     } catch (err) {
-      setError('Failed to process payment. Please try again.');
+      setError('Failed to process order');
     } finally {
       setIsProcessing(false);
     }
@@ -109,10 +139,19 @@ export default function Checkout() {
           <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
           <div className="flex justify-between items-center">
             <div>
-              <p className="font-medium">{plan.name} Plan</p>
+              <p className="font-medium">{plan.name}</p>
               <p className="text-purple-200">{plan.description}</p>
+              {isFreeTrial && (
+                <div className="flex items-center gap-2 mt-2 text-sm text-purple-300">
+                  <Info size={16} />
+                  <span>$1 authorization charge (refunded after verification)</span>
+                </div>
+              )}
             </div>
-            <p className="text-2xl font-bold">{plan.price}</p>
+            <p className="text-2xl font-bold">
+              {isFreeTrial ? 'Free' : plan.price}
+              {plan.period && <span className="text-sm text-purple-200">/{plan.period}</span>}
+            </p>
           </div>
         </div>
 
@@ -217,14 +256,6 @@ export default function Checkout() {
           )}
         </div>
 
-        {/* Error Message */}
-        {error && (
-          <div className="bg-red-500/20 border border-red-500/50 rounded-xl p-4 mb-8 flex items-center gap-3">
-            <AlertCircle className="w-5 h-5 text-red-400" />
-            <p className="text-red-200">{error}</p>
-          </div>
-        )}
-
         {/* Promo Code */}
         <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 mb-8 border border-white/10">
           <div className="flex items-center gap-3 mb-4">
@@ -301,6 +332,7 @@ export default function Checkout() {
                   customerEmail={customerEmail}
                   customerName={customerName}
                   planName={plan.name}
+                  isTrialSetup={isFreeTrial}
                 />
               )}
               {paymentMethod === 'paypal' && (
@@ -329,7 +361,7 @@ export default function Checkout() {
         {/* Free Checkout Button */}
         {promoApplied && (
           <button
-            onClick={handlePaymentSuccess}
+            onClick={handleFreeCheckout}
             disabled={isProcessing || (isGift && !giftEmail) || !customerEmail || !customerName}
             className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105 flex items-center justify-center gap-2 border border-white/10 disabled:opacity-50 disabled:hover:scale-100"
           >
