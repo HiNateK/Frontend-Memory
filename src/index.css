@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased text-base;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+
+  h1, h2, h3, h4 {
+    @apply text-white font-bold;
+  }
+
+  /* Form elements styling */
+  input, textarea, select {
+    @apply text-white placeholder-white/50;
+  }
+
+  input::placeholder, textarea::placeholder {
+    @apply text-white/50;
+  }
+
+  /* Autofill styles */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.1) inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
+
+/* Mobile-first text sizing */
+@layer utilities {
+  .text-responsive {
+    @apply text-base md:text-lg;
+  }
+
+  .heading-responsive {
+    @apply text-2xl md:text-4xl;
+  }
+
+  .subheading-responsive {
+    @apply text-lg md:text-xl;
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10px, -10px);
+  }
+}
+
+@keyframes float-medium {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-15px, 15px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: float-medium 6s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+/* Custom focus styles */
+*:focus {
+  @apply outline-none ring-2 ring-purple-300/50 ring-offset-2 ring-offset-purple-600/50;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-purple-900/20;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-purple-500/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-purple-500/70;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .mobile-text-adjust {
+    font-size: 95%;
+    line-height: 1.4;
+  }
+
+  .mobile-padding-adjust {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
