@@ -227,14 +227,14 @@ export default function Home() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="px-6 py-3 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 focus:outline-none focus:border-white/40 text-lg w-full"
+                    className="px-6 py-3 rounded-xl bg-transparent backdrop-blur-lg border border-white/20 focus:outline-none focus:border-white/40 text-lg w-full"
                     required
                     disabled={isSubmitting}
                   />
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-3 rounded-xl font-semibold text-lg transition-all hover:scale-105 whitespace-nowrap border border-white/10 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
+                    className="bg-transparent hover:bg-white/20 backdrop-blur-sm text-white px-8 py-3 rounded-xl font-semibold text-lg transition-all hover:scale-105 whitespace-nowrap border border-white/10 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? 'Subscribing...' : 'Subscribe'}
                   </button>
