@@ -80,17 +80,16 @@ ${isFreeTrial ? `Your Free Trial Details:
 
 Getting Started:
 1. Download KinScreen for your device:
-   - Windows: https://download.kinscreen.com/windows
-   - Mac: https://download.kinscreen.com/mac
+   - Windows: kinscreen.com/windows
+   - Mac: kinscreen.com/mac
 
 2. Sign in with your email: ${email}
 
 3. Start sharing your memories!
 
 Important Links:
-- Download Page: https://kinscreen.com/download
-- Support Center: https://kinscreen.com/support
-- Account Settings: https://kinscreen.com/account
+- Download Page: kinscreen.com/download
+- Support Center: kinscreen.com/faq
 
 Need help? Our support team is here for you:
 - Email: support@kinscreen.com
@@ -115,8 +114,8 @@ Great news! ${senderName} has gifted you a ${planName} subscription to KinScreen
 
 Get Started Now:
 1. Download KinScreen for your device:
-   - Windows: https://download.kinscreen.com/windows
-   - Mac: https://download.kinscreen.com/mac
+   - Windows: kinscreen.com/windows
+   - Mac: kinscreen.com/mac
 
 2. Install the application
 3. Sign in with this email address
@@ -200,7 +199,7 @@ ${isFreeTrial
 Your subscription is now active. You can start using KinScreen right away!
 
 Access your account:
-- Visit: https://app.kinscreen.com
+- Visit: kinscreen.com
 - Email: ${email}
 
 Need help? Contact our support team:
