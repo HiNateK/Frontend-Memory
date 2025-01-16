@@ -113,10 +113,10 @@ function StripeCheckoutForm({
           <>
             <p className="font-medium mb-2">Free Trial Terms:</p>
             <ul className="list-disc list-inside space-y-1">
-              <li>$1 temporary authorization (refunded immediately)</li>
               <li>7 days free trial with full access</li>
               <li>$5/month after trial ends</li>
               <li>Cancel anytime during trial</li>
+              <li>No authorization charge</li>
             </ul>
           </>
         ) : (

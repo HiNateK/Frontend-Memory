@@ -22,8 +22,10 @@ export const initializePayment = async (amount: number, currency: string = 'usd'
           amount: Math.round(amount * 100), // Convert to cents
           currency,
           setup_future_usage: isTrialSetup ? 'off_session' : undefined,
-          capture_method: isTrialSetup ? 'manual' : 'automatic',
-          confirm: false,
+          automatic_payment_methods: {
+            enabled: true,
+            allow_redirects: 'never'
+          },
           metadata: {
             is_trial: isTrialSetup ? 'true' : 'false',
             trial_period_days: isTrialSetup ? '7' : undefined
