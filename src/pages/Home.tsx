@@ -217,7 +217,7 @@ export default function Home() {
                 Stay Updated with Family Tips
               </h2>
               <p className="text-xl text-purple-100">
-                Join our newsletter for helpful tips on preserving family memories
+                TEST Join our newsletter for helpful tips on preserving family memories
               </p>
               <form onSubmit={handleSubscribe} className="flex flex-col gap-4">
                 <div className="flex flex-col md:flex-row gap-4 justify-center max-w-xl mx-auto">
