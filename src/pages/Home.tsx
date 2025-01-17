@@ -209,7 +209,7 @@ export default function Home() {
       </section>
 
       {/* Newsletter */}
-<section className="py-20 backdrop-blur-lg">
+<section className="py-20">
   <div className="container mx-auto px-4">
     <div className="max-w-3xl mx-auto bg-white/5 rounded-2xl p-8 md:p-12 border border-white/10">
       <div className="text-center space-y-6">
