@@ -209,56 +209,56 @@ export default function Home() {
       </section>
 
       {/* Newsletter */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto bg-white/5 rounded-2xl p-8 md:p-12 border border-white/10">
-            <div className="text-center space-y-6">
-              <h2 className="text-3xl md:text-4xl font-bold">
-                Stay Updated with Family Tips
-              </h2>
-              <p className="text-xl text-purple-100">
-                TEST Join our newsletter for helpful tips on preserving family memories
-              </p>
-              <form onSubmit={handleSubscribe} className="flex flex-col gap-4">
-                <div className="flex flex-col md:flex-row gap-4 justify-center max-w-xl mx-auto">
-                  <input
-                    id="emailInput"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="px-6 py-3 rounded-xl bg-transparent border border-white/20 focus:outline-none focus:border-white/40 text-lg w-full"
-                    required
-                    disabled={isSubmitting}
-                  />
-                  <button 
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="bg-transparent hover:bg-white/20 text-white px-8 py-3 rounded-xl font-semibold text-lg transition-all hover:scale-105 whitespace-nowrap border border-white/10 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
-                  >
-                    {isSubmitting ? 'Subscribing...' : 'Subscribe'}
-                  </button>
-                </div>
-                
-                {subscriptionStatus.message && (
-                  <div className={`flex items-center gap-2 justify-center p-3 rounded-xl ${
-                    subscriptionStatus.type === 'success' 
-                      ? 'bg-green-500/20 text-green-200' 
-                      : 'bg-red-500/20 text-red-200'
-                  }`}>
-                    {subscriptionStatus.type === 'success' ? (
-                      <Check className="w-5 h-5" />
-                    ) : (
-                      <AlertCircle className="w-5 h-5" />
-                    )}
-                    <span>{subscriptionStatus.message}</span>
-                  </div>
-                )}
-              </form>
-            </div>
+<section className="py-20 backdrop-blur-lg">
+  <div className="container mx-auto px-4">
+    <div className="max-w-3xl mx-auto bg-white/5 rounded-2xl p-8 md:p-12 border border-white/10">
+      <div className="text-center space-y-6">
+        <h2 className="text-3xl md:text-4xl font-bold">
+          New Test Stay Updated with Family Tips
+        </h2>
+        <p className="text-xl text-purple-100">
+          Join our newsletter for helpful tips on preserving family memories
+        </p>
+        <form onSubmit={handleSubscribe} className="flex flex-col gap-4">
+          <div className="flex flex-col md:flex-row gap-4 justify-center max-w-xl mx-auto">
+            <input
+              id="emailInput"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="px-6 py-3 rounded-xl bg-transparent border border-white/20 focus:outline-none focus:border-white/40 text-lg w-full"
+              required
+              disabled={isSubmitting}
+            />
+            <button 
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-transparent hover:bg-white/20 text-white px-8 py-3 rounded-xl font-semibold text-lg transition-all hover:scale-105 whitespace-nowrap border border-white/10 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
+            >
+              {isSubmitting ? 'Subscribing...' : 'Subscribe'}
+            </button>
           </div>
-        </div>
-      </section>
+          
+          {subscriptionStatus.message && (
+            <div className={`flex items-center gap-2 justify-center p-3 rounded-xl ${
+              subscriptionStatus.type === 'success' 
+                ? 'bg-green-500/20 text-green-200' 
+                : 'bg-red-500/20 text-red-200'
+            }`}>
+              {subscriptionStatus.type === 'success' ? (
+                <Check className="w-5 h-5" />
+              ) : (
+                <AlertCircle className="w-5 h-5" />
+              )}
+              <span>{subscriptionStatus.message}</span>
+            </div>
+          )}
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Video Modal */}
       <VideoModal 
