@@ -211,7 +211,7 @@ export default function Home() {
       {/* Newsletter */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto bg-white/5 backdrop-blur-lg rounded-2xl p-8 md:p-12 border border-white/10">
+          <div className="max-w-3xl mx-auto bg-white/5 rounded-2xl p-8 md:p-12 border border-white/10">
             <div className="text-center space-y-6">
               <h2 className="text-3xl md:text-4xl font-bold">
                 Stay Updated with Family Tips
@@ -227,14 +227,14 @@ export default function Home() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="px-6 py-3 rounded-xl bg-transparent backdrop-blur-lg border border-white/20 focus:outline-none focus:border-white/40 text-lg w-full"
+                    className="px-6 py-3 rounded-xl bg-transparent border border-white/20 focus:outline-none focus:border-white/40 text-lg w-full"
                     required
                     disabled={isSubmitting}
                   />
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-transparent hover:bg-white/20 backdrop-blur-sm text-white px-8 py-3 rounded-xl font-semibold text-lg transition-all hover:scale-105 whitespace-nowrap border border-white/10 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
+                    className="bg-transparent hover:bg-white/20 text-white px-8 py-3 rounded-xl font-semibold text-lg transition-all hover:scale-105 whitespace-nowrap border border-white/10 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? 'Subscribing...' : 'Subscribe'}
                   </button>
