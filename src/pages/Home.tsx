@@ -211,13 +211,13 @@ export default function Home() {
      {/* Newsletter */}
 <section className="py-20">
   <div className="container mx-auto px-4">
-    <div className="max-w-3xl mx-auto bg-white/5 rounded-2xl p-8 md:p-12 border border-white/10 backdrop-blur-lg">
+    <div className="max-w-3xl mx-auto bg-white/5 rounded-2xl p-8 md:p-12 border border-white/10 newsletter-backdrop">
       <div className="text-center space-y-6">
         <h2 className="text-3xl md:text-4xl font-bold">
           Stay Updated with Family Tips
         </h2>
         <p className="text-xl text-purple-100">
-          Join our newsletter for helpful tips on preserving family memories
+          Test1 Join our newsletter for helpful tips on preserving family memories
         </p>
         <form onSubmit={handleSubscribe} className="flex flex-col gap-4">
           <div className="flex flex-col md:flex-row gap-4 justify-center max-w-xl mx-auto">
