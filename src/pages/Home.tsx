@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Shield, 
-  ArrowRight, 
-  Star, 
+import {
+  Shield,
+  ArrowRight,
   Play,
   Heart,
   Lock,
@@ -16,10 +15,10 @@ import {
 } from 'lucide-react';
 import ImageViewer from '../components/ImageViewer';
 import VideoModal from '../components/VideoModal';
-import { subscribeToNewsletter } from '../services/newsletter';
+import { subscribeToNewsletter, SubscribeResult } from '../services/newsletter';
 
 // Trust Badges Data
-const trustBadges = [
+const trustBadges: { icon: JSX.Element; text: string; }[] = [
   { icon: <Shield className="w-6 h-6" />, text: "Secure Payment" },
   { icon: <Lock className="w-6 h-6" />, text: "Privacy Protected" },
   { icon: <Clock className="w-6 h-6" />, text: "24/7 Support" },
@@ -27,7 +26,7 @@ const trustBadges = [
 ];
 
 // Features Data
-const features = [
+const features: { icon: JSX.Element; title: string; description: string; }[] = [
   {
     icon: <MousePointer2 />,
     title: "Easy to Use",
@@ -51,21 +50,23 @@ const features = [
 ];
 
 // Demo Images
-const demoImages = [
+const demoImages: string[] = [
   "https://images.unsplash.com/photo-1609220136736-443140cffec6?auto=format&fit=crop&w=1600&h=900&q=80",
   "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1600&h=900&q=80",
   "https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1600&h=900&q=80",
 ];
 
-export default function Home() {
-  const [activeFeature, setActiveFeature] = useState(0);
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const [email, setEmail] = useState('');
-  const [subscriptionStatus, setSubscriptionStatus] = useState<{
-    message: string;
-    type: 'success' | 'error' | null;
-  }>({ message: '', type: null });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+interface SubscriptionStatus {
+  message: string;
+  type: 'success' | 'error' | null;
+}
+
+export default function Home(): JSX.Element {
+  const [activeFeature, setActiveFeature] = useState<number>(0);
+  const [isVideoOpen, setIsVideoOpen] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [subscriptionStatus, setSubscriptionStatus] = useState<SubscriptionStatus>({ message: '', type: null });
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -74,13 +75,13 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSubscribe = async (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubscriptionStatus({ message: '', type: null });
 
     try {
-      const result = await subscribeToNewsletter(email);
+      const result: SubscribeResult = await subscribeToNewsletter(email);
       
       setSubscriptionStatus({
         message: result.message,
@@ -90,7 +91,7 @@ export default function Home() {
       if (result.success) {
         setEmail('');
       }
-    } catch (error) {
+    } catch (error: any) {
       setSubscriptionStatus({
         message: 'Failed to subscribe. Please try again later.',
         type: 'error'
@@ -103,7 +104,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="pb-20 px-4">
+      <section className="pb-20 px-4 bg-inherit">
         <div className="container mx-auto max-w-6xl relative">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-20 left-10 animate-float-slow">
@@ -155,7 +156,7 @@ export default function Home() {
       </section>
 
       {/* Trust Badges */}
-      <section className="py-12">
+      <section className="py-12 bg-inherit">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
             {trustBadges.map((badge, index) => (
@@ -173,7 +174,7 @@ export default function Home() {
       </section>
 
       {/* Demo Section */}
-      <section className="py-12">
+      <section className="py-12 bg-inherit">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <ImageViewer images={demoImages} interval={5000} />
@@ -182,7 +183,7 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="py-20">
+      <section className="py-20 bg-inherit">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
             Everything You Need to Stay Connected
@@ -209,7 +210,7 @@ export default function Home() {
       </section>
 
       {/* Newsletter */}
-      <section className="py-20">
+      <section className="py-20 bg-inherit">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto bg-white/5 backdrop-blur-lg rounded-2xl p-8 md:p-12 border border-white/10">
             <div className="text-center space-y-6">
@@ -217,7 +218,7 @@ export default function Home() {
                 Stay Updated with Family Tips
               </h2>
               <p className="text-xl text-purple-100">
-                TEST Join our newsletter for helpful tips on preserving family memories
+                Join our newsletter for helpful tips on preserving family memories
               </p>
               <form onSubmit={handleSubscribe} className="flex flex-col gap-4">
                 <div className="flex flex-col md:flex-row gap-4 justify-center max-w-xl mx-auto">
