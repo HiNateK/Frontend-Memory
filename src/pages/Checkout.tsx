@@ -142,10 +142,6 @@ export default function Checkout() {
               <p className="font-medium">{plan.name}</p>
               <p className="text-purple-200">{plan.description}</p>
               {isFreeTrial && (
-                <div className="flex items-center gap-2 mt-2 text-sm text-purple-300">
-                  <Info size={16} />
-                  <span>$1 authorization charge (refunded after verification)</span>
-                </div>
               )}
             </div>
             <p className="text-2xl font-bold">
