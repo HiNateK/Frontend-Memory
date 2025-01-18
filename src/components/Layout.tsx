@@ -34,7 +34,7 @@ export default function Layout() {
         <div className="px-4 md:px-6 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="text-xl md:text-2xl font-bold hover:text-purple-200 transition relative group">
-              KinScreen
+              KinScreen - Rama's home away from home
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-300 transition-all duration-300 group-hover:w-full"></span>
             </Link>
 
@@ -128,7 +128,6 @@ export default function Layout() {
               <ul className="space-y-2">
                 <li><Link to="/privacy" className="text-purple-100 hover:text-white transition mobile-text-adjust">Privacy Policy</Link></li>
                 <li><Link to="/terms" className="text-purple-100 hover:text-white transition mobile-text-adjust">Terms of Service</Link></li>
-                <li><Link to="/cookies" className="text-purple-100 hover:text-white transition mobile-text-adjust">Cookie Policy</Link></li>
               </ul>
             </div>
             <div>
@@ -138,17 +137,13 @@ export default function Layout() {
                   <Mail size={16} />
                   support@kinscreen.com
                 </li>
-                <li className="flex items-center gap-2 text-purple-100 mobile-text-adjust">
-                  <Phone size={16} />
-                  1-800-MEMORY
-                </li>
               </ul>
             </div>
           </div>
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex flex-col gap-2">
               <p className="text-purple-100 mobile-text-adjust">© 2024 KinScreen. All rights reserved.</p>
-              <p className="text-sm text-purple-200 mobile-text-adjust">Cancel anytime via your account or email support@kinscreen.com</p>
+              <p className="text-sm text-purple-200 mobile-text-adjust">Cancel anytime - see FAQ's or email support@kinscreen.com</p>
             </div>
             <div className="flex gap-4">
               <a href="#" className="text-purple-100 hover:text-white transition mobile-text-adjust">Facebook</a>

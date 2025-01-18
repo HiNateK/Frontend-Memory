@@ -35,7 +35,7 @@ const features: { icon: JSX.Element; title: string; description: string; }[] = [
   {
     icon: <Layout />,
     title: "Works Everywhere",
-    description: "Compatible with all your devices"
+    description: "Compatible with Mac and Windows devices"
   },
   {
     icon: <Lock />,
@@ -121,10 +121,10 @@ export default function Home(): JSX.Element {
           <div className="relative z-10 text-center space-y-8">
             <div className="relative inline-block">
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                Keep Your Family Memories
+                Let Rama surprise and delight you
                 <br />
                 <span className="text-yellow-300 relative">
-                  Always in View
+                  Can Rama even tell the future?
                   <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 8" fill="none">
                     <path d="M0 4C50 4 50 7 100 7C150 7 150 1 200 1" stroke="currentColor" strokeWidth="2"/>
                   </svg>
@@ -132,15 +132,14 @@ export default function Home(): JSX.Element {
               </h1>
             </div>
             <p className="text-xl md:text-2xl text-purple-100 max-w-3xl mx-auto">
-              Transform your idle screen into a living family photo album. 
-              Perfect for staying connected with loved ones.
+              Well... maybe, maybe not...
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
               <Link 
                 to="/pricing"
                 className="group bg-white/10 backdrop-blur-sm hover:bg-white/20 px-8 py-4 rounded-xl font-semibold text-xl transition-all hover:scale-105 hover:shadow-xl flex items-center gap-2 w-full md:w-auto justify-center border border-white/10"
               >
-                Start Free Trial
+                Try it for free
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <button 

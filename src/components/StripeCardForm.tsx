@@ -116,7 +116,6 @@ function StripeCheckoutForm({
               <li>7 days free trial with full access</li>
               <li>$5/month after trial ends</li>
               <li>Cancel anytime during trial</li>
-              <li>No authorization charge</li>
             </ul>
           </>
         ) : (

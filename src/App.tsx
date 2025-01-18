@@ -44,7 +44,7 @@ const features = [
   {
     icon: <Layout />,
     title: "Works Everywhere",
-    description: "Compatible with all your devices"
+    description: "Compatible with Mac and Windows devices"
   },
   {
     icon: <Lock />,
@@ -90,7 +90,7 @@ function App() {
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <a href="/" className="text-2xl md:text-3xl font-bold hover:text-purple-200 transition relative group">
-              MemoryScreen
+              KinScreen
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-300 transition-all duration-300 group-hover:w-full"></span>
             </a>
 
@@ -117,7 +117,7 @@ function App() {
                 ))}
               </div>
               <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-6 py-2.5 rounded-xl font-medium text-sm transition-all hover:scale-105 hover:shadow-lg border border-white/10">
-                Start Free Trial
+                Try it for Free
               </button>
             </nav>
           </div>
@@ -138,7 +138,7 @@ function App() {
                 </a>
               ))}
               <button className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-6 py-2.5 rounded-lg font-medium text-sm transition-all hover:scale-105 mt-2 border border-white/10">
-                Start Free Trial
+                Try it for Free
               </button>
             </div>
           </nav>
@@ -151,10 +151,10 @@ function App() {
           <div className="text-center space-y-8">
             <div className="relative inline-block">
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                Keep Your Family Memories
+                Let Rama surprise and delight you
                 <br />
                 <span className="text-yellow-300 relative">
-                  Always in View
+                  Can Rama even tell the future?
                   <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 8" fill="none">
                     <path d="M0 4C50 4 50 7 100 7C150 7 150 1 200 1" stroke="currentColor" strokeWidth="2"/>
                   </svg>
@@ -162,12 +162,11 @@ function App() {
               </h1>
             </div>
             <p className="text-xl md:text-2xl text-purple-100 max-w-3xl mx-auto">
-              Transform your idle screen into a living family photo album. 
-              Perfect for staying connected with loved ones.
+              Well... maybe, maybe not...
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
               <button className="group bg-white/10 backdrop-blur-sm hover:bg-white/20 px-8 py-4 rounded-xl font-semibold text-xl transition-all hover:scale-105 hover:shadow-xl flex items-center gap-2 w-full md:w-auto justify-center border border-white/10">
-                Start Free Trial
+                Try it for Free
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" />
               </button>
               <button className="group bg-purple-700/30 backdrop-blur-sm hover:bg-purple-700/40 px-8 py-4 rounded-xl font-semibold text-xl transition-all hover:scale-105 flex items-center gap-2 w-full md:w-auto justify-center border border-purple-500/30">
@@ -249,7 +248,7 @@ function App() {
                   ))}
                 </div>
                 <p className="text-lg mb-4 text-purple-100">
-                  "MemoryScreen has transformed how we stay connected as a family. It's beautiful and so easy to use!"
+                  "KinScreen has transformed how we stay connected as a family. It's beautiful and so easy to use!"
                 </p>
                 <div className="pt-4 border-t border-white/10">
                   <p className="font-semibold">Sarah Johnson</p>
@@ -292,7 +291,7 @@ function App() {
         <div className="container mx-auto px-4 py-12">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">MemoryScreen</h3>
+              <h3 className="text-xl font-bold mb-4">KinScreen</h3>
               <p className="text-purple-100">
                 Keeping families connected through shared memories
               </p>
@@ -314,7 +313,6 @@ function App() {
               <ul className="space-y-2">
                 <li><a href="/privacy" className="text-purple-100 hover:text-white transition">Privacy Policy</a></li>
                 <li><a href="/terms" className="text-purple-100 hover:text-white transition">Terms of Service</a></li>
-                <li><a href="/cookies" className="text-purple-100 hover:text-white transition">Cookie Policy</a></li>
               </ul>
             </div>
             <div>
@@ -322,22 +320,13 @@ function App() {
               <ul className="space-y-2">
                 <li className="flex items-center gap-2 text-purple-100">
                   <Mail size={16} />
-                  support@memoryscreen.com
-                </li>
-                <li className="flex items-center gap-2 text-purple-100">
-                  <Phone size={16} />
-                  1-800-MEMORY
+                  support@kinscreen.com
                 </li>
               </ul>
             </div>
           </div>
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-purple-100">© 2024 MemoryScreen. All rights reserved.</p>
-            <div className="flex gap-4">
-              <a href="#" className="text-purple-100 hover:text-white transition">Facebook</a>
-              <a href="#" className="text-purple-100 hover:text-white transition">Twitter</a>
-              <a href="#" className="text-purple-100 hover:text-white transition">Instagram</a>
-            </div>
+            <p className="text-purple-100">© 2024 KinScreen. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -204,7 +204,6 @@ Access your account:
 
 Need help? Contact our support team:
 - Email: support@kinscreen.com
-- Phone: 1-800-MEMORY
 
 Thank you for choosing KinScreen!
 
