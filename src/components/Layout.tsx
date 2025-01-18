@@ -145,11 +145,6 @@ export default function Layout() {
               <p className="text-purple-100 mobile-text-adjust">© 2024 KinScreen. All rights reserved.</p>
               <p className="text-sm text-purple-200 mobile-text-adjust">Cancel anytime - see FAQ's or email support@kinscreen.com</p>
             </div>
-            <div className="flex gap-4">
-              <a href="#" className="text-purple-100 hover:text-white transition mobile-text-adjust">Facebook</a>
-              <a href="#" className="text-purple-100 hover:text-white transition mobile-text-adjust">Twitter</a>
-              <a href="#" className="text-purple-100 hover:text-white transition mobile-text-adjust">Instagram</a>
-            </div>
           </div>
         </div>
       </footer>
