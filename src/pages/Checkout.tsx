@@ -148,6 +148,10 @@ export default function Checkout() {
               {isFreeTrial ? 'Free' : plan.price}
               {plan.period && <span className="text-sm text-purple-200">/{plan.period}</span>}
             </p>
+            <div className="flex items-center gap-2 mt-2 text-sm text-purple-300">
+                  <Info size={16} />
+                  <span>$1 authorization charge (refunded after verification)</span>
+                </div>
           </div>
         </div>
 
