@@ -35,4 +35,4 @@ export const createTrialCustomer = async (email: string, firstName: string, last
   }
 };
 
-// ... rest of the file remains unchanged
+// ... rest of the file remains unchangedt
