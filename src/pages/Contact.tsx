@@ -7,8 +7,8 @@ const contactMethods = [
     icon: <Phone className="w-6 h-6" />,
     title: "Phone Support",
     description: "Call us for immediate help",
-    action: "Comming soon!",
-    link: ""
+    action: "Coming soon!",
+    link: "#"
   },
   {
     icon: <Mail className="w-6 h-6" />,
@@ -203,7 +203,7 @@ export default function Contact() {
             <h2 className="text-2xl font-bold">Our location</h2>
           </div>
           <div className="text-center space-y-2">
-            <p className="text-purple-100">Hawaii, HI</p>
+            <p className="text-purple-100">Hawaii, CA 94105</p>
             <p className="text-purple-100">United States</p>
           </div>
         </div>
