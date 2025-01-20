@@ -79,22 +79,19 @@ ${isFreeTrial ? `Your Free Trial Details:
 - Cancel anytime during trial at no cost` : ''}
 
 Getting Started:
-1. Download KinScreen for your device:
-   - Windows: kinscreen.com/windows
-   - Mac: kinscreen.com/mac
+1. Download Rama for your device:
+   - Windows: https://ramascreensaver.com/wp-content/uploads/Rama-Screensaver-v1.0-Windows-1.zip
+   - Mac: https://ramascreensaver.com/wp-content/uploads/ScreenSaverApp.zip
 
 2. Sign in with your email: ${email}
 
 3. Start sharing your memories!
 
 Important Links:
-- Download Page: kinscreen.com/download
 - Support Center: kinscreen.com/faq
 
 Need help? Our support team is here for you:
 - Email: support@kinscreen.com
-- Phone: 1-800-MEMORY
-- Live Chat: Available 24/7 on our website
 
 ${isFreeTrial ? `\nReminder: Your free trial will automatically convert to a $5/month subscription after 7 days. You can cancel anytime during the trial period at no cost.` : ''}
 
@@ -113,18 +110,15 @@ export const sendGiftEmail = async (recipientEmail: string, senderName: string, 
 Great news! ${senderName} has gifted you a ${planName} subscription to KinScreen - a beautiful way to keep your family memories always in view!
 
 Get Started Now:
-1. Download KinScreen for your device:
-   - Windows: kinscreen.com/windows
-   - Mac: kinscreen.com/mac
+1. Download Rama for your device:
+   - Windows: https://ramascreensaver.com/wp-content/uploads/Rama-Screensaver-v1.0-Windows-1.zip
+   - Mac: https://ramascreensaver.com/wp-content/uploads/ScreenSaverApp.zip
 
 2. Install the application
-3. Sign in with this email address
 4. Your gift subscription will be automatically activated
 
 Need help? Our support team is here for you:
 - Email: support@kinscreen.com
-- Phone: 1-800-MEMORY
-- Live Chat: Available 24/7 on our website
 
 Enjoy your gift!
 The KinScreen Team`

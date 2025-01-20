@@ -19,7 +19,7 @@ export default function ThankYou() {
             <h2 className="text-2xl font-semibold">Download MemoryScreen</h2>
             <div className="grid md:grid-cols-2 gap-4">
               <a
-                href="#windows-download"
+                href="https://ramascreensaver.com/wp-content/uploads/Rama-Screensaver-v1.0-Windows-1.zip"
                 className="group bg-white/10 hover:bg-white/20 backdrop-blur-sm p-6 rounded-xl transition-all hover:scale-105 flex items-center justify-center gap-3 border border-white/10"
               >
                 <Download className="w-5 h-5" />
@@ -27,7 +27,7 @@ export default function ThankYou() {
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
               <a
-                href="#mac-download"
+                href="https://ramascreensaver.com/wp-content/uploads/ScreenSaverApp.zip"
                 className="group bg-white/10 hover:bg-white/20 backdrop-blur-sm p-6 rounded-xl transition-all hover:scale-105 flex items-center justify-center gap-3 border border-white/10"
               >
                 <Download className="w-5 h-5" />
