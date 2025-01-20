@@ -131,5 +131,5 @@
 }
 
 .backdrop-blur-lg, .backdrop-blur-md, .backdrop-blur-sm {
-  backdrop-filter: none !important;
+  backdrop-filter: none;
 }
