@@ -129,3 +129,7 @@
     padding-right: 0.75rem;
   }
 }
+
+.backdrop-blur-lg {
+  backdrop-filter: none !important;
+}
