@@ -130,6 +130,6 @@
   }
 }
 
-.backdrop-blur-lg, .backdrop-blur-md, .backdrop-blur-sm {
+.backdrop-blur-lg, .backdrop-blur-sm {
   backdrop-filter: none;
 }
