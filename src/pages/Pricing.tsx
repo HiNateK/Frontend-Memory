@@ -13,7 +13,6 @@ const plans = [
       "Single device support",
       "Email support",
       "Up to 100 photos",
-      "Basic sharing features",
       "7-day full access",
       "Converts to $5/month"
     ],
@@ -26,11 +25,9 @@ const plans = [
     description: "Full access with auto-renewal",
     popular: true,
     features: [
-      "Premium transitions & effects",
       "Up to 5 devices",
       "Priority support 24/7",
       "Unlimited photos",
-      "Advanced sharing features",
       "Family access included",
       "Cancel anytime",
       "Auto-renews monthly"
@@ -48,7 +45,6 @@ const plans = [
       "Lifetime access",
       "Premium support forever",
       "Early access to new features",
-      "Exclusive content & effects",
       "Priority feature requests",
       "Free upgrades for life"
     ],
